@@ -106,7 +106,11 @@ namespace injLib
         }
 
 
-
+        /*
+            This method checks for general SQL injection attacks
+            @param  value and path of type string
+            @return boolean
+         */
         public static bool generalSQLcheck(string value, string path)
         {
             List<String> lis = returnKeywords("GeneralSQL", path, 's');
