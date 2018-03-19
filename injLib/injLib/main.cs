@@ -8,7 +8,7 @@ using System.IO;
 
 namespace injLib
 {
-    public class Class1
+    public class main
     {
         static string pathTemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "inj.xml");
 
@@ -81,7 +81,7 @@ namespace injLib
         {
             List<String> keywordList = new List<String>();
             XmlDocument xd = new XmlDocument();
-            DecryptFile(path, pathTemp);
+            crypto.DecryptFile(path, pathTemp);
             xd.Load(pathTemp);
             File.Delete(pathTemp);
             XmlNode xn = xd.SelectSingleNode("//Root");
@@ -116,7 +116,7 @@ namespace injLib
 
             foreach (string lisvalue in lis)
             {
-                DecryptFile(path, pathTemp);
+                crypto.DecryptFile(path, pathTemp);
                 XmlDocument xd = new XmlDocument();
                 xd.Load(pathTemp);
                 File.Delete(pathTemp);
@@ -266,7 +266,7 @@ namespace injLib
 
                     if (chk == false)
                     {
-                        return false;
+                        return false ;
                     }
                 }
                 else
@@ -321,7 +321,7 @@ namespace injLib
                 {
                     return false;
                 }
-                int x = 0;
+                //int x = 0;
             }
             return true;
         }
@@ -338,98 +338,6 @@ namespace injLib
             return stringValue;
         }
 
-        public static void EncryptFile(string inputFile, string outputFile)
-        {
-
-            try
-            {
-                string password = @"ProDotDL";
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                string cryptFile = outputFile;
-                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateEncryptor(key, key),
-                    CryptoStreamMode.Write);
-
-                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-                int data;
-                while ((data = fsIn.ReadByte()) != -1)
-                    cs.WriteByte((byte)data);
-                cs.Flush();
-                fsCrypt.Flush();
-                fsIn.Flush();
-                fsIn.Close();
-                cs.Close();
-                fsCrypt.Close();
-                fsCrypt.Dispose();
-                fsIn.Dispose();
-                cs.Dispose();
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-
-            }
-        }
-        //Encrypt Over
-
-
-        /// <summary>
-        /// This is a method to decrypt a file with a given key.
-        /// </summary>
-        /// <param name="inputFile"></param>
-        /// <param name="outputFile"></param>
-        public static void DecryptFile(string inputFile, string outputFile)
-        {
-            try
-            {
-                string password = @"ProDotDL"; // Your Key Here
-
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateDecryptor(key, key),
-                    CryptoStreamMode.Read);
-
-                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
-
-                int data;
-                while ((data = cs.ReadByte()) != -1)
-                    fsOut.WriteByte((byte)data);
-
-                cs.Flush();
-                fsCrypt.Flush();
-                fsOut.Flush();
-                fsOut.Close();
-                cs.Close();
-                fsCrypt.Close();
-                fsOut.Dispose();
-                fsCrypt.Dispose();
-                cs.Dispose();
-
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-
-            }
-        }
+        
     }
 }
